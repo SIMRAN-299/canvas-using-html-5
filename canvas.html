@@ -3,90 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="canvastyle.css">
+    <script src="myscript.js"></script>
+    <script src="https://kit.fontawesome.com/5e749c64ad.js" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
 <body>
-    <div class="div">
-    <input id="mycolor"  type="color">
     
-    <input id="mywidth" type="range" min=5  max=25 >
-    <button onClick="myfun()"> change attributes</button> 
+    <div id="m" class="main_container">
+            <div onclick="toggle()" id="pencil_icon" class="pencil">
+                   <i  id="pencil_color" class="fas fa-pencil-alt"></i>
+                   <div class="pencil_bottom"></div>
+             </div>
+             
+            <div id="myopen"  class="open">
+                        <div class="width_container">
+                              <input onchange="myfun()" id="mywidth" type="range" min=5  max=25 >
+                        </div>
+                        <div class="color_list">
+               
+                            <div class="mycolor" >
+                                  <div id="red" class="color"></div>
+                                  <div  id="lightblue" class="color"></div>
+                                  <div  id="pink" class="color"></div>
+                                  <div  id="green" class="color"></div>
+                                  <div  id="yellow" class="color"></div>
+                                  <div  id="black" class="color" ></div>
+                                  <div  id="special" class="color"></div>
+                                  
+                                  <div id="" class="color">
+                                     <i class="fas fa-plus" id="more" ></i>
+
+                                  </div>
+
+                                  
+                            </div>
+                        </div>    
+             
+        
+            </div>
+            <div onclick="eraser_active()" class="eraser" id="myeraser">
+                <i class="fas fa-eraser"></i>
+                
+
+            </div>
+            <div onclick="Mode_Change()" id="light_dark" class="light_dark_mode">
+                <i class="far fa-moon"></i>
+
+            </div>
+            
+    </div>
+        
+        
+    
+
         
     
     
     </div>    
-    <canvas id="draw" width="800" height="800"></canvas>
-    <style>
-        
-        button {
-           background-color: mediumvioletred; /* Green */
-           border: none;
-           color: white;
-           padding: 15px 32px;
-           text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-}
-        .div{
-            background-color:pink;
-            height:10vh;
-        }
-    </style>
     
+    <canvas id="draw" width="800" height="800"></canvas>
     <script>
         let c;
         let w=10;
+        let myhue=1;
+        let dark_mode=0; //THIS VARIABLE IS FOR DARK MODE INDICATION.
+        let color_on=0;// this is for the color list when we click on  pencil
         function myfun(){
-            c=document.getElementById("mycolor").value;
-            w=document.getElementById("mywidth").value;
-    
-        }
-      const canvas=document.querySelector('#draw');
-      const ctx=canvas.getContext('2d');
-      canvas.width=window.innerWidth;
-      canvas.height=window.innerHeight;
-      ctx.strokeStyle=c;
-      ctx.lineJoin='round';
-      ctx.lineCap='round';
-      let temp=0;
-      let isDrawing=false;
-      let lastX=0;
-      let lastY=0;
-      let hue=c;
-        console.log(typeof `${c}`);
-    
-      function draw(e){
-          if(!isDrawing)return;
-        console.log(e);
-        ctx.strokeStyle=`${c}`;
-        ctx.beginPath();
-        ctx.moveTo(lastX,lastY);
-        ctx.lineTo(e.offsetX,e.offsetY);
-        ctx.stroke();
-        ctx.lineWidth=w;
-        
-        hue++;
-        
-        [lastX,lastY]=[e.offsetX,e.offsetY];
+            
+             w=document.getElementById("mywidth").value;
+             
 
-      }
-      canvas.addEventListener('mousemove',draw);
-      canvas.addEventListener('mousedown',function(e){
-          isDrawing=true;
-          lastX=e.offsetX;
-          lastY=e.offsetY;
-      });
-      canvas.addEventListener('mouseup',()=>isDrawing=false);
-      canvas.addEventListener('mouseout',()=>isDrawing=false);
+        }
+        let on_start=0;
+        let gradient_color=0;
+        //addevent listener
+           let previous_color="black";
+           const colorselector=document.querySelectorAll(".color");
+           for(let i=0;i<colorselector.length;i++){
+               colorselector[i].addEventListener("click",(e)=>{
+                      const new_color=e.target.id;
+                      
+                      if(new_color=="special"){
+                          gradient_color=1;
+                        
+                          document.getElementById(previous_color).classList.remove("addborder");
+                          document.getElementById(new_color).classList.add("addborder");
+                          document.querySelector(".pencil_bottom").style.backgroundImage="linear-gradient(45deg, red,orange,yellow,green,blue,indigo,violet)";
+                          
+                        
+                          previous_color=new_color;
+                          
+                             
+                      }
+                      else if(previous_color!=new_color){
+                          gradient_color=0;
+                          document.getElementById(previous_color).classList.remove("addborder");
+                          document.getElementById(new_color).classList.add("addborder");
+                          document.querySelector(".pencil_bottom").style.backgroundColor=new_color;
+                          if(previous_color=="special"){
+                            document.querySelector(".pencil_bottom").style.backgroundImage="";
+                            
+                          }
+                          c=new_color;
+                          
+                        
+                          previous_color=new_color;
+                      }
+               })
+           }
+           /*THIS SECTION IS FOR IMPLEMENTATION OF DARK MODE*/
+
+           function Mode_Change(){
+               
+            
+                const temp=document.getElementById("light_dark").innerHTML=`<i class="fas fa-sun"></i>`;
+                
+
+               
+               
+               
+               if(dark_mode==0){
+     
+                      document.getElementById("draw").classList.add("dark_canvas_color");
+                      document.querySelector("#m").classList.add("dark_top_container_color");
+                      document.getElementById("light_dark").innerHTML=`<i class="far fa-lightbulb"></i>`;
+                      document.getElementById("light_dark").classList.add("white_font");
+                      document.getElementById("m").style.boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0), 0 6px 20px 0 rgb(0, 0, 0)";
+                      document.getElementById("pencil_icon").style.color="white";
+                      document.getElementById("pencil_icon").style.backgroundColor="#262626";
+                      document.getElementById("myeraser").style.color="white";
+                      document.getElementById("myeraser").style.backgroundColor="#262626";
+                    
+                      
+                      
+               } 
+               else{
+                      document.getElementById("draw").classList.remove("dark_canvas_color");
+                      document.querySelector("#m").classList.remove("dark_top_container_color");
+                      document.getElementById("light_dark").innerHTML=`<i class="far fa-moon"></i>`;
+                      document.getElementById("light_dark").classList.remove("white_font");
+                      document.getElementById("m").style.boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)";
+                      document.getElementById("pencil_icon").style.color="black";
+                      document.getElementById("pencil_icon").style.backgroundColor="white";
+                      document.getElementById("myeraser").style.color="black";
+                      document.getElementById("myeraser").style.backgroundColor="white";
+                      
+                    
+               }
+               dark_mode=!dark_mode;
+           }
+
+
+
+
+
+
+
+
+
+
+
+
+                   
+      
+
+
+
+        //erasor functionality
+              function eraser_active(){
+                  document.querySelector(".pencil_bottom").style.backgroundImage="";
+                  document.querySelector(".eraser").style.backgroundColor="rgb(230, 250, 255)";
+                  
+                  
+                  if(color_on==1){
+                      document.getElementById("myopen").classList.toggle("displayclass");
+                      color_on=0;
+                  }
+                  if(dark_mode==1){
+                      c="#1a1a1a";
+                      document.getElementById("pencil_icon").style.backgroundColor="#262626";
+                  }
+                  else{
+                      c="white";
+                      document.getElementById("pencil_icon").style.backgroundColor="white";
+                  }   
+                  gradient_color=0;
+                  document.querySelector(".pencil_bottom").style.backgroundColor="white";
+              }
+
+
+
+
+        //
+        const canvas=document.querySelector('#draw');
+        const ctx=canvas.getContext('2d');
+        canvas.width=window.innerWidth;
+        canvas.height=3*window.innerHeight;
+        ctx.strokeStyle=c;
+        ctx.lineJoin='round';
+        ctx.lineCap='round';
+        let temp=0;
+        let isDrawing=false;
+        let lastX=0;
+        let lastY=0;
+        let hue=c;
+        function toggle(){
+            
+            document.getElementById("myopen").classList.toggle("displayclass");
+            document.getElementById("pencil_icon").style.backgroundColor="rgb(230, 250, 255)";
+            document.querySelector(".eraser").style.backgroundColor="white";
+            if(on_start==0){
+                on_start=1;
+              document.querySelector(".pencil_bottom").style.backgroundColor="black";
+            }
+            color_on=!color_on;
+        }
+        function colorchange(e){
+            console.log(e);
+        }
+        function draw(e){
+           if(!isDrawing)return;
+            
+            ctx.strokeStyle=c;
+            ctx.beginPath();
+            ctx.lineWidth=w;
+            ctx.moveTo(lastX,lastY);
+            ctx.lineTo(e.offsetX,e.offsetY);
+            ctx.stroke();
+            
+            
+            
+
+            if(gradient_color==1){
+                c=`hsl(${myhue},100%,50%)`;
+                myhue++;
+            }
+
+            [lastX,lastY]=[e.offsetX,e.offsetY];
+
+        }
+            canvas.addEventListener('mousemove',draw);
+            canvas.addEventListener('mousedown',function(e){
+                 isDrawing=true;
+                 lastX=e.offsetX;
+                 lastY=e.offsetY;
+            });
+            canvas.addEventListener('mouseup',()=>isDrawing=false);
+            canvas.addEventListener('mouseout',()=>isDrawing=false);
+
+
 
 
 
     </script>
-    <style>
-        html,body{
-            margin:0;
-        }
-    </style>
+ 
+    
+    
+    
 </body>
 </html>

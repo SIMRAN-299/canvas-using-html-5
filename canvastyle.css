@@ -1,0 +1,170 @@
+
+
+#mycolor{
+    border:none;
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+}
+ .main_container{
+     /*background-color:rgb(255, 255, 255);*/
+     background-color: white;
+     height:10vh;
+     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+     
+     
+     
+ }
+ html,body{
+    margin:0;
+    box-sizing: border-box;
+    padding:0px;
+}
+.mydropdown{
+    font-size: 3rem;
+}
+
+.mycolor{
+    margin-top:10px;
+    display:grid;
+    width:140px;
+    height:200px;
+    background-color: white;
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+*/
+    
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
+    position:relative;
+    z-index: 2;
+    
+    
+    
+}
+
+.color{
+    
+    
+    width:30px;
+    height:30px;
+    border-radius: 50%;
+    margin:25% auto;
+
+}
+.color:hover{
+    border:5px solid rgb(28, 105, 221);
+}
+#red{
+    background-color: red;
+}
+#lightblue{
+    background-color: lightblue;
+}
+#pink{
+    background-color: pink;
+}
+#yellow{
+    background-color: yellow;
+}
+#black{
+    background-color: black;
+    
+}
+#green{
+    background-color: green;
+}
+#special{
+    background-image: linear-gradient(45deg, red,orange,yellow,green,blue,indigo,violet);
+}
+.open{
+    width:140px;
+    background-color: rgb(255, 255, 255);
+    height:250px;
+    
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position:absolute;
+    top:70px;
+    display:none;
+    left:50px;
+}
+.pencil{
+    width:50px;
+    height:10vh-30px;
+    position:absolute;
+    padding:10px;
+    top:0px;
+    left:100px;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+
+    
+    
+    
+}
+.pencil:hover{
+
+    transform:scale(1.2);
+}
+.pencil_bottom{
+    width:50px;
+    height:5px;
+    background-color: white;
+    margin-top:8px;
+}
+.eraser{
+    
+    width:50px;
+    height:7.2vh;
+    position:absolute;
+    padding:10px;
+    top:0px;
+    left:200px;
+    border-radius: 10px;
+}
+.eraser:hover{
+    transform: scale(1.2);
+}
+.fas{
+    font-size:2.5rem;
+}
+#more{
+    font-size:2rem;
+}
+.displayclass{
+    display:inline-block;
+}
+.addborder{
+    border:5px solid rgb(28, 105, 221);
+}
+/* THIS IS FOR THE LIGHT --DARK--MODE*/
+.light_dark_mode{
+    
+    width:50px;
+    height:7.2vh;
+    font-size:2.5rem;
+    left:1400px;
+    padding:10px;
+    position:absolute;
+    
+    
+}
+.light_dark_mode:hover{
+      transform: scale(1.2);
+}
+.dark_top_container_color{
+    background-color:#262626;
+}
+.dark_canvas_color{
+    background-color:#1a1a1a;
+}
+.white_font{
+    color:white;
+}
+
+
+
+/*
+<input onchange="myfun()" id="mycolor"  type="color">
+    
+    <input onchange="myfun()" id="mywidth" type="range" min=5  max=25 >
+*/
