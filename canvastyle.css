@@ -10,7 +10,11 @@
      /*background-color:rgb(255, 255, 255);*/
      background-color: white;
      height:10vh;
-     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+     position:sticky; 
+     top:0px;
+     display: grid;
+     grid-template-columns: repeat(14,1fr);
      
      
      
@@ -29,7 +33,7 @@
     display:grid;
     width:140px;
     height:200px;
-    background-color: white;
+    
     /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 */
     
@@ -68,7 +72,15 @@
 }
 #black{
     background-color: black;
+    border:5px solid rgb(28, 105, 221);
     
+    
+}
+#brown{
+    background-color: brown;
+}
+#purple{
+    background-color: purple;
 }
 #green{
     background-color: green;
@@ -83,19 +95,25 @@
     
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     position:absolute;
+    left:70px;
     top:70px;
+
+    
     display:none;
-    left:50px;
+
+    
 }
 .pencil{
     width:50px;
-    height:10vh-30px;
-    position:absolute;
+    height:7vh;
+    
+    
     padding:10px;
-    top:0px;
-    left:100px;
+    border:3px solid rgb(28, 105, 221);
+    
     border-radius: 10px;
-    background-color: rgb(255, 255, 255);
+
+    grid-column-start: 2;
 
     
     
@@ -104,25 +122,28 @@
 .pencil:hover{
 
     transform:scale(1.2);
+    background-color: white;
 }
 .pencil_bottom{
     width:50px;
     height:5px;
-    background-color: white;
+    background-color: black;
     margin-top:8px;
 }
 .eraser{
     
     width:50px;
     height:7.2vh;
-    position:absolute;
+
     padding:10px;
-    top:0px;
-    left:200px;
+    
     border-radius: 10px;
+    
+    
 }
 .eraser:hover{
     transform: scale(1.2);
+    background-color: white;
 }
 .fas{
     font-size:2.5rem;
@@ -136,15 +157,21 @@
 .addborder{
     border:5px solid rgb(28, 105, 221);
 }
+.addborder_small{
+    border:3px solid rgb(28, 105, 221);
+}
 /* THIS IS FOR THE LIGHT --DARK--MODE*/
 .light_dark_mode{
-    
     width:50px;
     height:7.2vh;
     font-size:2.5rem;
-    left:1400px;
+    
     padding:10px;
-    position:absolute;
+    
+    
+    border-radius: 10px;
+    grid-column-start: 14;
+    
     
     
 }
@@ -160,6 +187,8 @@
 .white_font{
     color:white;
 }
+
+/*this is for implementation of special mixing class*/
 
 
 

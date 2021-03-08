@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="canvastyle.css">
     <script src="myscript.js"></script>
     <script src="https://kit.fontawesome.com/5e749c64ad.js" crossorigin="anonymous"></script>
@@ -15,43 +17,41 @@
                    <i  id="pencil_color" class="fas fa-pencil-alt"></i>
                    <div class="pencil_bottom"></div>
              </div>
-             
-            <div id="myopen"  class="open">
-                        <div class="width_container">
-                              <input onchange="myfun()" id="mywidth" type="range" min=5  max=25 >
-                        </div>
-                        <div class="color_list">
-               
-                            <div class="mycolor" >
-                                  <div id="red" class="color"></div>
-                                  <div  id="lightblue" class="color"></div>
-                                  <div  id="pink" class="color"></div>
-                                  <div  id="green" class="color"></div>
-                                  <div  id="yellow" class="color"></div>
-                                  <div  id="black" class="color" ></div>
-                                  <div  id="special" class="color"></div>
-                                  
-                                  <div id="" class="color">
-                                     <i class="fas fa-plus" id="more" ></i>
-
-                                  </div>
-
-                                  
-                            </div>
-                        </div>    
-             
-        
-            </div>
-            <div onclick="eraser_active()" class="eraser" id="myeraser">
+             <div onclick="eraser_active()" class="eraser" id="myeraser">
                 <i class="fas fa-eraser"></i>
                 
 
             </div>
+                
             <div onclick="Mode_Change()" id="light_dark" class="light_dark_mode">
                 <i class="far fa-moon"></i>
 
             </div>
-            
+    </div>
+    <div id="myopen"  class="open">
+        <div class="width_container">
+              <input onchange="Change_width()" id="mywidth" type="range" min=5  max=40 >
+        </div>
+        <div class="color_list">
+
+            <div class="mycolor" >
+                  <div id="red" class="color"></div>
+                  <div  id="lightblue" class="color"></div>
+                  <div  id="pink" class="color"></div>
+                  <div  id="green" class="color"></div>
+                  <div  id="yellow" class="color"></div>
+                  <div  id="black" class="color" ></div>
+                  <div  id="brown" class="color" ></div>
+                  <div id="purple" class="color"></div>
+                  <div  id="special" class="color"></div>
+                  
+                 
+
+                  
+            </div>
+        </div>    
+
+
     </div>
         
         
@@ -60,25 +60,26 @@
         
     
     
-    </div>    
+      
     
     <canvas id="draw" width="800" height="800"></canvas>
     <script>
+         
+        //  THIS IS VARIABLE SECTION //........................................................................
         let c;
         let w=10;
-        let myhue=1;
+        
+        let myhue=1;        //THIS VARIABLE IS FOR SPECIAL COLOR
         let dark_mode=0; //THIS VARIABLE IS FOR DARK MODE INDICATION.
-        let color_on=0;// this is for the color list when we click on  pencil
-        function myfun(){
-            
-             w=document.getElementById("mywidth").value;
-             
-
-        }
+        let pencil_on=0;// this is for the color list when we click on  pencil
         let on_start=0;
         let gradient_color=0;
-        //addevent listener
-           let previous_color="black";
+        let previous_color="black";
+        //HERE IS WHERE THE VARIABLE SECTION ENDS........................................................
+
+
+        //addevent listener THIS SECTION IS FOR COLORS UNDER PENCIL
+           
            const colorselector=document.querySelectorAll(".color");
            for(let i=0;i<colorselector.length;i++){
                colorselector[i].addEventListener("click",(e)=>{
@@ -86,9 +87,20 @@
                       
                       if(new_color=="special"){
                           gradient_color=1;
+                          if(previous_color=="black"){
+                                 document.getElementById("black").style.border="none";
+                          } 
+                          else{
+                            document.getElementById(previous_color).classList.remove("addborder");
+                          }
                         
-                          document.getElementById(previous_color).classList.remove("addborder");
-                          document.getElementById(new_color).classList.add("addborder");
+                          if(new_color=="black"){
+                            document.getElementById("black").style.border="5px solid rgb(28, 105, 221)";
+                          }
+                          else{
+                            document.getElementById(new_color).classList.add("addborder");
+                          }
+                        
                           document.querySelector(".pencil_bottom").style.backgroundImage="linear-gradient(45deg, red,orange,yellow,green,blue,indigo,violet)";
                           
                         
@@ -96,10 +108,24 @@
                           
                              
                       }
+                    
                       else if(previous_color!=new_color){
+                        if(previous_color=="black"){
+                                 document.getElementById("black").style.border="none";
+                          } 
+                          else{
+                            document.getElementById(previous_color).classList.remove("addborder");
+                          }
+                          if(new_color=="black"){
+                            document.getElementById("black").style.border="5px solid rgb(28, 105, 221)";
+                          }
+                          else{
+                            document.getElementById(new_color).classList.add("addborder");
+                          }
+                        
                           gradient_color=0;
-                          document.getElementById(previous_color).classList.remove("addborder");
-                          document.getElementById(new_color).classList.add("addborder");
+                          
+                          
                           document.querySelector(".pencil_bottom").style.backgroundColor=new_color;
                           if(previous_color=="special"){
                             document.querySelector(".pencil_bottom").style.backgroundImage="";
@@ -112,17 +138,28 @@
                       }
                })
            }
+           //....................................................................................
+           //THIS SECTION IS FOR CHANGING THE WIDTH  OF THE PENCIL
+
+           function Change_width(){
+            
+            w=document.getElementById("mywidth").value;
+            
+
+          }
+
+
+
+          //....................................................................................
+
+
+
+
            /*THIS SECTION IS FOR IMPLEMENTATION OF DARK MODE*/
 
            function Mode_Change(){
-               
-            
-                const temp=document.getElementById("light_dark").innerHTML=`<i class="fas fa-sun"></i>`;
                 
 
-               
-               
-               
                if(dark_mode==0){
      
                       document.getElementById("draw").classList.add("dark_canvas_color");
@@ -134,6 +171,8 @@
                       document.getElementById("pencil_icon").style.backgroundColor="#262626";
                       document.getElementById("myeraser").style.color="white";
                       document.getElementById("myeraser").style.backgroundColor="#262626";
+                      document.querySelector(".open").style.backgroundColor="#262626";
+                      document.querySelector(".pencil_bottom").style.backgroundColor="black";
                     
                       
                       
@@ -148,54 +187,74 @@
                       document.getElementById("pencil_icon").style.backgroundColor="white";
                       document.getElementById("myeraser").style.color="black";
                       document.getElementById("myeraser").style.backgroundColor="white";
+                      document.querySelector(".open").style.backgroundColor="white";
+                      
                       
                     
                }
                dark_mode=!dark_mode;
            }
 
+           //..............................................................................
 
 
 
 
 
-
-
-
-
-
-
-                   
-      
-
-
-
-        //erasor functionality
+           //THIS SECTION IS FOR THE ERASER FUNCTIONALITY....................................
               function eraser_active(){
                   document.querySelector(".pencil_bottom").style.backgroundImage="";
-                  document.querySelector(".eraser").style.backgroundColor="rgb(230, 250, 255)";
                   
+                  document.querySelector("#myeraser").classList.add("addborder_small");
+                  document.querySelector('#pencil_icon').style.border="none";
                   
-                  if(color_on==1){
+                  if(pencil_on==1){
                       document.getElementById("myopen").classList.toggle("displayclass");
-                      color_on=0;
+                      pencil_on=0;
                   }
                   if(dark_mode==1){
                       c="#1a1a1a";
                       document.getElementById("pencil_icon").style.backgroundColor="#262626";
+                      document.querySelector(".pencil_bottom").style.backgroundColor="#262626";
+                    
                   }
                   else{
                       c="white";
                       document.getElementById("pencil_icon").style.backgroundColor="white";
+                      document.querySelector(".pencil_bottom").style.backgroundColor="white";
                   }   
                   gradient_color=0;
-                  document.querySelector(".pencil_bottom").style.backgroundColor="white";
+                  
               }
 
+        //PENCIL FUNCTIONALITY............................
 
+        function toggle(){
+            document.getElementById("black").style.border="5px solid rgb(28, 105, 221)";
+            document.querySelector("#myeraser").classList.remove("addborder_small");
+            
+            document.querySelector(".pencil_bottom").style.backgroundColor="black";
+            c="black";
+            const myheight=document.querySelector('.main_container').offsetTop;
+            document.getElementById("myopen").style.top=`${myheight+70}px`;
+            document.getElementById("myopen").classList.toggle("displayclass");
+            document.getElementById("pencil_icon").style.border="3px solid rgb(28, 105, 221)";
+            
+            pencil_on=!pencil_on;
+        }
+        window.addEventListener("scroll",()=>{
+             myheight=document.querySelector('.main_container').offsetTop+80;
+            
+            document.getElementById("myopen").style.top=`${myheight}px`;
 
+        });
+        
+       
+        
 
-        //
+        //..................................................................................................
+
+        // THIS IS FOR THE IMPLEMENTATION FOR THE DRAWING AREA.................................................
         const canvas=document.querySelector('#draw');
         const ctx=canvas.getContext('2d');
         canvas.width=window.innerWidth;
@@ -208,20 +267,9 @@
         let lastX=0;
         let lastY=0;
         let hue=c;
-        function toggle(){
-            
-            document.getElementById("myopen").classList.toggle("displayclass");
-            document.getElementById("pencil_icon").style.backgroundColor="rgb(230, 250, 255)";
-            document.querySelector(".eraser").style.backgroundColor="white";
-            if(on_start==0){
-                on_start=1;
-              document.querySelector(".pencil_bottom").style.backgroundColor="black";
-            }
-            color_on=!color_on;
-        }
-        function colorchange(e){
-            console.log(e);
-        }
+
+        
+        
         function draw(e){
            if(!isDrawing)return;
             
@@ -233,13 +281,13 @@
             ctx.stroke();
             
             
-            
+            //THIS IS FOR THE SPECIAL COLOR........................
 
             if(gradient_color==1){
                 c=`hsl(${myhue},100%,50%)`;
                 myhue++;
             }
-
+            //SECTION FOR SPECIAL COLOR ENDS HERE......................
             [lastX,lastY]=[e.offsetX,e.offsetY];
 
         }
@@ -253,7 +301,7 @@
             canvas.addEventListener('mouseout',()=>isDrawing=false);
 
 
-
+    //..HERE IS WHERE THE DRAWING AREA FUNCITONALITY ENDS.....................................
 
 
     </script>
